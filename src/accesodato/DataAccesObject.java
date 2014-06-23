@@ -6,6 +6,7 @@ package accesodato;
 
 import java.util.List;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Transaction;
 
 
@@ -18,6 +19,7 @@ import org.hibernate.classic.Session;
 public class DataAccesObject {
 
     private HibernateUtil hibernate;
+    public static final org.hibernate.Session cnx=HibernateUtil.getSessionFactory().openSession();
 
     public DataAccesObject() {
         hibernate = new HibernateUtil();
@@ -73,6 +75,19 @@ public class DataAccesObject {
         }
         return lista;
     }
+    
+    public static List getObjects(String HQLQuery){
+        List lista = null;
+        try {
+            cnx.clear();
+            Query q=cnx.createQuery(HQLQuery);
+            lista=q.list();            
+        } catch (Exception e) {
+        }
+        return lista;
+
+    }
+    
 
     public void modificarObject(Object object) {
         Transaction transaction = null;

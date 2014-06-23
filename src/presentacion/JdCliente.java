@@ -31,6 +31,14 @@ public class JdCliente extends javax.swing.JDialog {
         listarClientes(tblListaCliente);
     }
 
+    JdCliente(JfPrincipal padre, boolean b) {
+        super(padre, b);
+        initComponents();
+        this.clienteDAO = new NCliente();
+        this.setLocationRelativeTo(padre);
+        listarClientes(tblListaCliente);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

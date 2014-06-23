@@ -26,6 +26,13 @@ public class JdProducto extends javax.swing.JDialog {
         nProducto = new NProducto();
     }
 
+    JdProducto(JfPrincipal padre, boolean b) {
+        super(padre, b);
+        initComponents();
+        this.setLocationRelativeTo(padre);
+        nProducto = new NProducto();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
