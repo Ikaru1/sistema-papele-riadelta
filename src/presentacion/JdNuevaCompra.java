@@ -5,14 +5,18 @@
 package presentacion;
 
 import accesodato.Producto;
+import java.awt.event.ActionEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultFormatterFactory;
@@ -33,7 +37,7 @@ public class JdNuevaCompra extends javax.swing.JDialog {
     private NCompra nCompra;
     private DefaultComboBoxModel comboModelProducto;
     private DefaultTableModel tableModelCompra;
-    
+
     public JdNuevaCompra() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -59,7 +63,7 @@ public class JdNuevaCompra extends javax.swing.JDialog {
         txtCantidad.setValue(1);
         txtCantidad.setText("1");
         tablaDetalleCompra.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        
+       
         
     }
 
@@ -398,6 +402,13 @@ public class JdNuevaCompra extends javax.swing.JDialog {
     private void agregarItemTablaCompra(int codigoProducto, String nombreProducto,
             int cantidad, float precioUnidad, float precioReferencia) {
         double total = cantidad * precioUnidad;
+        boolean verificacion = verificarProductoEntabla(codigoProducto);
+        if ( verificacion)
+        {
+            JOptionPane.showMessageDialog(this,"Este producto ya esta en la "
+                 + " tabla");  
+            return ;
+        }
         Object data[] = {codigoProducto, nombreProducto, cantidad, precioUnidad,
             precioReferencia, total};
         tableModelCompra.addRow(data);
@@ -565,5 +576,15 @@ public class JdNuevaCompra extends javax.swing.JDialog {
         }
         
         return true;
+    }
+
+    private boolean verificarProductoEntabla(int codigoProducto) {
+        int cantidadFilas = tableModelCompra.getRowCount();
+        for(int indexFila =0; indexFila < cantidadFilas ; indexFila++){
+           int valor = (Integer) tableModelCompra.getValueAt(indexFila,0);
+           if ( valor == codigoProducto)
+               return true;
+        }
+        return false;
     }
 }
